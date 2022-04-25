@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -57,7 +57,7 @@ public class StudentController {
             return new ResponseEntity<>(student, HttpStatus.NOT_FOUND);
         } else {
             log.info("updating student {} with following {}", dbStudent.getId(), student);
-            Student updatedStudent = studentDao.updateStudent(dbStudent);
+            Student updatedStudent = studentDao.updateStudent(student);
             if (updatedStudent == null) {
                 return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
             } else {
@@ -66,4 +66,15 @@ public class StudentController {
         }
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteStudent(@PathVariable UUID id) {
+        log.info("deleting student with the id {}", id);
+        var deleted = studentDao.deleteStudent(id);
+        if (deleted) {
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } else {
+            log.error("could not delete student {}", id);
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+    }
 }

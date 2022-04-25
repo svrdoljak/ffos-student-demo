@@ -7,8 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.UUID;
 
@@ -35,7 +33,7 @@ public class StudentDao {
             log.info("returning student {}", student);
             return student;
         } catch (Exception e) {
-            log.error("could not find student {}", id);
+            log.error("could not find student {}", id, e);
             return null;
         }
     }
@@ -53,9 +51,7 @@ public class StudentDao {
         }
     }
 
-    //UPDATE student SET first_name='ZELJKO' where id='840915ae-9c0d-4f8d-b546-db037c9787a9';
     public Student updateStudent(Student student) {
-        //var sqlq = "UPDATE student SET first_name=?, last_name=?, age=?, subject=?, grade=?";
         var sql = "UPDATE student SET first_name = ?, last_name = ?, age = ?, subject = ?, grade = ? WHERE id = ?";
         var studentId = student.getId();
         try {
@@ -64,8 +60,21 @@ public class StudentDao {
             log.info("successfully updated student {} to {}", studentId, student);
             return student;
         } catch (Exception e) {
-            log.error("could not update student {}", student.getId(), e);
+            log.error("could not update student {}", studentId, e);
             return null;
+        }
+    }
+
+    public boolean deleteStudent(UUID id) {
+        var sql = "DELETE student WHERE id = ?";
+        try {
+            log.info("deleting student {}", id);
+            jdbcTemplate.update(sql, id);
+            log.info("successfully deleted student {}", id);
+            return true;
+        } catch (Exception e) {
+            log.error("could not delete student {}", id, e);
+            return false;
         }
     }
 }

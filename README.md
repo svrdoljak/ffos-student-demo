@@ -3,6 +3,7 @@
 - GET - `curl http://localhost:8080/api/v1/student/840915ae-9c0d-4f8d-b546-db037c9787a9 -v`
 - POST- `curl -X POST -H "Content-type:application/json" http://localhost:8080/api/v1/student -d '{"firstName":"Željko","lastName":"Brdarić","age":33,"subject":"Programiranje 2","grade":3}' -v`
 - PUT - `curl -X PUT -H "Content-type:application/json" http://localhost:8080/api/v1/student -d '{"id":"840915ae-9c0d-4f8d-b546-db037c9787a9","firstName":"Tomislav","lastName":"Jakopec","age":38,"subject":"Programiranje 2","grade":1}' -v`
+- DELETE - `curl -X DELETE -H "Content-type:application/json" http://localhost:8080/api/v1/student/840915ae-9c0d-4f8d-b546-db037c9787a9 -v`
 
 # Getting Started
 

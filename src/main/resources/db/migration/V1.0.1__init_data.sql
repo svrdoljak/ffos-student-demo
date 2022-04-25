@@ -1,0 +1,1 @@
+INSERT INTO STUDENT(id, first_name, last_name, age, subject, grade) VALUES('840915ae-9c0d-4f8d-b546-db037c9787a9', 'Stijepo', 'Vrdoljak', 29, 'Programiranje 2', 2);

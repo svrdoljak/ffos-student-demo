@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.UUID;
 
+/**
+ * REST controller for the {@link Student}
+ * */
 @RestController
 @RequestMapping("/api/v1/student")
 public class StudentController {
@@ -26,8 +29,13 @@ public class StudentController {
     private static final Logger log = LoggerFactory.getLogger(StudentController.class);
 
     @Autowired
-    StudentDao studentDao;
+    StudentDao studentDao; //todo use a service layer between the controller and dao
 
+    /**
+     * Get a {@link Student}
+     * @param id - the unique student id
+     * @return {@link Student}
+     * */
     @GetMapping(value = "/{id}")
     public ResponseEntity<Student> getStudent(@PathVariable("id") UUID id) {
         log.info("getting student {}", id);
@@ -38,8 +46,14 @@ public class StudentController {
         return new ResponseEntity<>(student, HttpStatus.OK);
     }
 
+    /**
+     * Create a {@link Student}
+     * @param student - the student object which is being validated
+     * @return {@link Student} - the created student
+     * */
     @PostMapping
     public ResponseEntity<Student> createStudent(@Valid @RequestBody Student student) {
+        //generate a random unique UUID
         student.setId(UUID.randomUUID());
         log.info("creating student {}", student);
         Student createdStudent = studentDao.createStudent(student);
@@ -49,8 +63,14 @@ public class StudentController {
         return new ResponseEntity<>(student, HttpStatus.CREATED);
     }
 
+    /**
+     * Update a {@link Student}
+     * @param student - the student update object
+     * @return {@link Student} the updated student
+     * */
     @PutMapping
     public ResponseEntity<Student> updateStudent(@Valid @RequestBody Student student) {
+        //check first if the student exists
         Student dbStudent = studentDao.getStudent(student.getId());
         if (dbStudent == null) {
             log.error("student with the id {} does not exist", student.getId());
@@ -66,6 +86,11 @@ public class StudentController {
         }
     }
 
+    /**
+     * Delete a {@link Student}
+     * @param id - the unique student id
+     * @return 202 HttpStatus if successfully deleted or 417 expectation failed if something went wrong
+     * */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteStudent(@PathVariable UUID id) {
         log.info("deleting student with the id {}", id);

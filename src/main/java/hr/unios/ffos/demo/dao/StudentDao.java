@@ -12,7 +12,7 @@ import java.util.UUID;
 
 /**
  * Student Data Access Object
- * Responsible for reading, writing and changing the {@link hr.unios.ffos.demo.model.Student} from the database
+ * Responsible for reading, writing, changing & deleting the {@link hr.unios.ffos.demo.model.Student} from the database
  * */
 @Service
 public class StudentDao {
@@ -25,6 +25,11 @@ public class StudentDao {
     @Autowired
     StudentMapper studentMapper;
 
+    /**
+     * Get student from the DB
+     * @param id - the unique student id
+     * @return {@link Student}
+     * */
     public Student getStudent(UUID id) {
         var sql = "SELECT * FROM student WHERE id = ?";
         try {
@@ -38,6 +43,11 @@ public class StudentDao {
         }
     }
 
+    /**
+     * Create a new student
+     * @param student - a new student object
+     * @return {@link Student} - the newly created student
+     * */
     public Student createStudent(Student student) {
         var sql = "INSERT INTO student(id, first_name, last_name, age, subject, grade) VALUES (?,?,?,?,?,?)";
         try {
@@ -51,6 +61,11 @@ public class StudentDao {
         }
     }
 
+    /**
+     * Update an existing student
+     * @param student - the update object of {@link Student}
+     * @return {@link Student} - the updated student
+     * */
     public Student updateStudent(Student student) {
         var sql = "UPDATE student SET first_name = ?, last_name = ?, age = ?, subject = ?, grade = ? WHERE id = ?";
         var studentId = student.getId();
@@ -65,6 +80,11 @@ public class StudentDao {
         }
     }
 
+    /**
+     * Delete a student
+     * @param id - an existing unique student id
+     * @return true if successfully deleted or false if something went wrong
+     * */
     public boolean deleteStudent(UUID id) {
         var sql = "DELETE student WHERE id = ?";
         try {

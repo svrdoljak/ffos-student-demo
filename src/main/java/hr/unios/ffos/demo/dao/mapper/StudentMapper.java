@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import java.sql.ResultSet;
 import java.util.UUID;
 
+/**
+ * A mapper to map the ResultSet from the DB into a {@link Student}
+ * */
 @Service
 public class StudentMapper implements RowMapper<Student> {
 
